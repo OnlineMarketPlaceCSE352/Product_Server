@@ -21,23 +21,24 @@ import java.util.List;
         }
 
         public Product getProductByID(String id) {
-            return null;
+            return  null;
         }
 
         public List<Product> search(String keyword) {
             return null;
         }
 
-        public void saveProduct(Product product) {
+        public List<Product> getProductsBySeller(String sellerID) {
+            return null;
+        }
 
+        public void saveProduct(Product product) {
         }
 
         public void deleteProduct(String id) {
-
         }
 
         public void updateProduct( Product updated) {
-
         }
 
     }

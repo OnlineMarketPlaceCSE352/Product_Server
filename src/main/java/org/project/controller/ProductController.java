@@ -33,6 +33,7 @@ public class ProductController implements Runnable{
         routes.put(new RouteKey(Method.DELETE, "/api/products/:id"), this::handleDeleteProduct);
         routes.put(new RouteKey(Method.GET, "/api/products/search"), this::handleSearchProducts);
         routes.put(new RouteKey(Method.PUT, "/api/products/:id/sold"), this::handleMarkAsSold);
+        routes.put(new RouteKey(Method.GET, "/api/products/seller/:id"), this::handleGetBySeller);
     }
 
     @Override
@@ -246,6 +247,12 @@ public class ProductController implements Runnable{
     // marked as sold
     private Response handleMarkAsSold(Request request) {
 
+        String token = request.getHeader("Authorization");
+
+        if (token == null) {
+            return errorResponse(401, "Unauthorized", "Missing token");
+        }
+
         String id = request.getPath().split("/")[3];
 
         try {
@@ -256,6 +263,27 @@ public class ProductController implements Runnable{
             res.setStatusText("OK");
             res.setBody("{\"message\": \"Product marked as sold\"}");
             return res;
+
+        } catch (Exception e) {
+            return errorResponse(400, "Bad Request", e.getMessage());
+        }
+    }
+    //Get Product For Seller (not sold "available")
+    private Response handleGetBySeller(Request request) {
+        String token = request.getHeader("Authorization");
+
+        if (token == null) {
+            return errorResponse(401, "Unauthorized", "Missing token");
+        }
+
+        String sellerID = request.getPath().split("/")[4];
+
+        try {
+            Response response = new Response();
+            response.setStatusCode(200);
+            response.setStatusText("OK");
+            response.setBody(productService.getAvailableProductsBySeller(sellerID));
+            return response;
 
         } catch (Exception e) {
             return errorResponse(400, "Bad Request", e.getMessage());

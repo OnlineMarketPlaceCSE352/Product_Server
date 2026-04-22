@@ -108,6 +108,11 @@ public class ProductService {
         productRepository.updateProduct(product);
     }
 
+    public String getAvailableProductsBySeller(String sellerID) {
+        List<Product> products = productRepository.getProductsBySeller(sellerID);
+        return getJSONArray(products);
+    }
+
     private String getJSONArray(List<Product> products) {
         StringBuilder responseBuilder = new StringBuilder();
         responseBuilder.append("[");
