@@ -42,8 +42,10 @@ public class ProductService {
                 request.getName(),
                 request.getBrand(),
                 request.getPrice(),
+                request.getDescription(),
                 sellerID,
                 true
+
         );
 
         productRepository.saveProduct(product);
@@ -55,6 +57,7 @@ public class ProductService {
         if (existing == null) {
             throw new RuntimeException("Product not found");
         }
+
         //  lock product (no one can buy it)
         existing.setAvailable(false);
         productRepository.updateProduct(existing);
@@ -64,7 +67,7 @@ public class ProductService {
         if (request.getName() != null) existing.setName(request.getName());
         if (request.getBrand() != null) existing.setBrand(request.getBrand());
         if (request.getPrice() != null) existing.setPrice(request.getPrice());
-
+        if (request.getDescription() != null) existing.setDescription(request.getDescription());
         //unlock after update
         existing.setAvailable(true);
 
@@ -87,12 +90,11 @@ public class ProductService {
     public void markAsSold(String productID) {
         Product product = productRepository.getProductByID(productID);
 
-        if (!product.getAvailable()) {
-            throw new RuntimeException("Product already sold or unavailable");
-        }
-
         if (product == null) {
             throw new RuntimeException("Product not found");
+        }
+        if (!product.getAvailable()) {
+            throw new RuntimeException("Product already sold or unavailable");
         }
 
         product.setAvailable(false);

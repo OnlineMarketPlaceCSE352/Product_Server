@@ -14,6 +14,7 @@ public class Product {
     private String name;
     private String brand;
     private BigDecimal price;
+    private String description;
     private String sellerID;
     private Boolean available;
 

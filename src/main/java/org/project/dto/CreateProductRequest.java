@@ -12,4 +12,5 @@ public class CreateProductRequest {
     private String name;
     private String brand;
     private BigDecimal price;
+    private String description;
 }
