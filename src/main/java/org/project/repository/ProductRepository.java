@@ -17,7 +17,7 @@ import java.util.List;
 
         private final List<Product> products = new ArrayList<>();
         public List<Product> getAllProducts() {
-            return products;
+            return null;
         }
 
         public Product getProductByID(String id) {
@@ -29,7 +29,7 @@ import java.util.List;
         }
 
         public void saveProduct(Product product) {
-            products.add(product);
+
         }
 
         public void deleteProduct(String id) {
