@@ -7,6 +7,7 @@ import org.project.mapper.ProductMapper;
 import org.project.model.Product;
 import org.project.repository.ProductRepository;
 
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -32,6 +33,7 @@ public class ProductService {
 
     public void createProduct(String productJSON,String sellerID) {
         CreateProductRequest request = ProductMapper.mapToCreateRequest(productJSON);
+        Date now = new Date();
 
         if (request.getPrice() == null || request.getPrice().doubleValue() <= 0) {
             throw new RuntimeException("Invalid price");
@@ -44,7 +46,9 @@ public class ProductService {
                 request.getPrice(),
                 request.getDescription(),
                 sellerID,
-                true
+                true,
+                now,
+                now
 
         );
 
@@ -68,6 +72,8 @@ public class ProductService {
         if (request.getBrand() != null) existing.setBrand(request.getBrand());
         if (request.getPrice() != null) existing.setPrice(request.getPrice());
         if (request.getDescription() != null) existing.setDescription(request.getDescription());
+        existing.setUpdatedAt(new Date());
+
         //unlock after update
         existing.setAvailable(true);
 
